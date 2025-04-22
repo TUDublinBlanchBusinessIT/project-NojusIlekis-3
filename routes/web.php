@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;      // ← added
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +26,20 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-// Protected CRUD routes
+// Protected CRUD and cart routes
 Route::middleware('auth')->group(function () {
+    // Category & Product CRUD
     Route::resource('categories', CategoryController::class);
     Route::resource('products',   ProductController::class);
+
+    // Shopping cart
+    Route::get   ('cart',               [CartController::class, 'index']) ->name('cart.index');
+    Route::post  ('cart/add/{product}', [CartController::class, 'add'])   ->name('cart.add');
+    Route::patch ('cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 });
 
 // Breeze authentication routes
 require __DIR__.'/auth.php';
+
 

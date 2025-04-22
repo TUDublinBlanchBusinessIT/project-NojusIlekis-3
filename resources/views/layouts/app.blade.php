@@ -1,33 +1,44 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ config('app.name', 'E‑Shop') }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'E‑Shop') }}</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categories</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">Cart</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          @auth
+            <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }}</a></li>
+            <li class="nav-item">
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="nav-link btn btn-link" type="submit">Log Out</button>
+              </form>
+            </li>
+          @else
+            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Log In</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+          @endauth
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+  <div class="container">
+    @yield('content')
+  </div>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
+

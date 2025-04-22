@@ -37,6 +37,14 @@ Route::middleware('auth')->group(function () {
     Route::post  ('cart/add/{product}', [CartController::class, 'add'])   ->name('cart.add');
     Route::patch ('cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // Checkout: create an order from the cart
+    Route::post('checkout', [OrderController::class, 'checkout'])
+         ->name('checkout');
+
+    // Show a placed order
+    Route::get('orders/{order}', [OrderController::class, 'show'])
+         ->name('orders.show');
 });
 
 // Breeze authentication routes

@@ -23,7 +23,10 @@
       <tbody>
         @php $total = 0; @endphp
         @foreach($cart as $item)
-          @php $subtotal = $item['price'] * $item['quantity']; $total += $subtotal; @endphp
+          @php 
+            $subtotal = $item['price'] * $item['quantity']; 
+            $total += $subtotal; 
+          @endphp
           <tr>
             <td>{{ $item['name'] }}</td>
             <td>${{ number_format($item['price'],2) }}</td>
@@ -31,7 +34,13 @@
               <form action="{{ route('cart.update', $item['product_id']) }}" method="POST" class="d-inline-block">
                 @csrf
                 @method('PATCH')
-                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="form-control d-inline-block" style="width:80px;">
+                <input 
+                  type="number" 
+                  name="quantity" 
+                  value="{{ $item['quantity'] }}" 
+                  min="1" 
+                  class="form-control d-inline-block" 
+                  style="width:80px;">
                 <button class="btn btn-sm btn-primary">Update</button>
               </form>
             </td>
@@ -40,7 +49,11 @@
               <form action="{{ route('cart.remove', $item['product_id']) }}" method="POST" class="d-inline-block">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Remove this item?')">Remove</button>
+                <button 
+                  class="btn btn-sm btn-danger" 
+                  onclick="return confirm('Remove this item?')">
+                  Remove
+                </button>
               </form>
             </td>
           </tr>
@@ -51,6 +64,12 @@
         </tr>
       </tbody>
     </table>
-    <a href="#" class="btn btn-success">Proceed to Checkout</a>
+
+    <!-- Proceed to Checkout -->
+    <form action="{{ route('checkout') }}" method="POST">
+      @csrf
+      <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+    </form>
   @endif
 @endsection
+

@@ -13,6 +13,7 @@
         <th>Category</th>
         <th>Price</th>
         <th>Stock</th>
+        <th>Add to Cart</th>  <!-- new column header -->
       </tr>
     </thead>
     <tbody>
@@ -22,10 +23,19 @@
           <td>{{ $p->category->name }}</td>
           <td>${{ number_format($p->price, 2) }}</td>
           <td>{{ $p->stock }}</td>
+          <td>
+            <form action="{{ route('cart.add', $p) }}" method="POST">
+              @csrf
+              <button type="submit" class="btn btn-success btn-sm">
+                Add to Cart
+              </button>
+            </form>
+          </td>
         </tr>
       @empty
-        <tr><td colspan="4" class="text-center">No products yet</td></tr>
+        <tr><td colspan="5" class="text-center">No products yet</td></tr>
       @endforelse
     </tbody>
   </table>
 @endsection
+

@@ -46,6 +46,11 @@ Route::middleware('auth')->group(function () {
     // Show a placed order
     Route::get('orders/{order}', [OrderController::class, 'show'])
          ->name('orders.show');
+        
+    //Order history
+    Route::get('orders', [OrderController::class, 'index'])
+         ->name('orders.index');
+    
 });
 
 // Breeze authentication routes

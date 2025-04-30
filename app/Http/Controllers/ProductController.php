@@ -46,6 +46,7 @@ class ProductController extends Controller
             'price'       => 'required|numeric',
             'stock'       => 'required|integer',
             'category_id' => 'required|exists:categories,id',
+            'active'      => 'boolean',
         ]);
     
         Product::create($data);

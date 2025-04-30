@@ -20,7 +20,10 @@
 
     <div class="mb-3">
       <label class="form-label">Description</label>
-      <textarea name="description" class="form-control">{{ old('description', $product->description) }}</textarea>
+      <textarea
+        name="description"
+        class="form-control"
+      >{{ old('description', $product->description) }}</textarea>
     </div>
 
     <div class="mb-3">
@@ -50,11 +53,23 @@
         @foreach($categories as $cat)
           <option
             value="{{ $cat->id }}"
-            {{ $cat->id == $product->category_id ? 'selected' : '' }}>
+            {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>
             {{ $cat->name }}
           </option>
         @endforeach
       </select>
+    </div>
+
+    <!-- Active Checkbox -->
+    <div class="form-check mb-3">
+      <input
+        type="checkbox"
+        name="active"
+        id="active"
+        class="form-check-input"
+        value="1"
+        {{ old('active', $product->active) ? 'checked' : '' }}>
+      <label class="form-check-label" for="active">Active?</label>
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>
@@ -67,5 +82,6 @@
     <button type="submit" class="btn btn-danger">Delete</button>
   </form>
 @endsection
+
 
 

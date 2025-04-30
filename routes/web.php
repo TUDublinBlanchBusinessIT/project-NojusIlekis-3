@@ -50,6 +50,11 @@ Route::middleware('auth')->group(function () {
     //Order history
     Route::get('orders', [OrderController::class, 'index'])
          ->name('orders.index');
+
+    // Rate an order
+    Route::post('orders/{order}/rate', [OrderController::class, 'rate'])
+         ->name('orders.rate');
+
     
 });
 

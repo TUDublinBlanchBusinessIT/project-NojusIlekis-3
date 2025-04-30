@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'E-Shop') }}</title>
 
-  <!-- 1) Vite build (Tailwind + your app scripts) -->
-  @vite(['resources/css/app.css','resources/js/app.js'])
+
 
   <!-- 2) Bootstrap CSS -->
   <link
@@ -108,4 +107,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
 

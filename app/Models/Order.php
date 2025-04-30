@@ -15,6 +15,7 @@ class Order extends Model
         'user_id',
         'total',
         'status',
+        'rating',
     ];
 
     // An Order belongs to a User

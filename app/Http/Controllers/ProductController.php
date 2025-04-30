@@ -8,20 +8,35 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of products, optionally filtered by category.
+     */
+    public function index(Request $request)
     {
-        // Load all products along with their category
-        $products = Product::with('category')->get();
+        $query = Product::with('category');
+
+        // If ?category_id= was provided, filter the products
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $products = $query->get();
+
         return view('products.index', compact('products'));
     }
 
+    /**
+     * Show the form for creating a new product.
+     */
     public function create()
     {
-        // Load categories for dropdown
         $categories = Category::all();
         return view('products.create', compact('categories'));
     }
 
+    /**
+     * Store a newly created product in storage.
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -33,7 +48,7 @@ class ProductController extends Controller
             'active'      => 'sometimes|boolean',
         ]);
 
-        // Checkbox unchecked → not present → default to false
+        // Ensure 'active' is always set (true if checked, false otherwise)
         $data['active'] = $request->has('active');
 
         Product::create($data);
@@ -43,17 +58,18 @@ class ProductController extends Controller
             ->with('success', 'Product created.');
     }
 
-    public function show($id)
-    {
-        //
-    }
-
+    /**
+     * Show the form for editing the specified product.
+     */
     public function edit(Product $product)
     {
         $categories = Category::all();
         return view('products.edit', compact('product', 'categories'));
     }
 
+    /**
+     * Update the specified product in storage.
+     */
     public function update(Request $request, Product $product)
     {
         $data = $request->validate([
@@ -65,7 +81,6 @@ class ProductController extends Controller
             'active'      => 'sometimes|boolean',
         ]);
 
-        // Handle the checkbox
         $data['active'] = $request->has('active');
 
         $product->update($data);
@@ -75,6 +90,9 @@ class ProductController extends Controller
             ->with('success', 'Product updated.');
     }
 
+    /**
+     * Remove the specified product from storage.
+     */
     public function destroy(Product $product)
     {
         $product->delete();

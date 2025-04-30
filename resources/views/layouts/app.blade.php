@@ -4,8 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'E-Shop') }}</title>
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Starability CSS for star-rating displays (via unpkg) -->
+  <link rel="stylesheet"
+        href="https://unpkg.com/starability/css/starability-all.min.css"/>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <div class="container">
@@ -26,7 +33,7 @@
         </ul>
         <ul class="navbar-nav ms-auto">
           @auth
-            <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }}</a></li>
+            <li class="nav-item"><a class="nav-link">{{ Auth::user()->name }}</a></li>
             <li class="nav-item">
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -46,7 +53,7 @@
     @yield('content')
   </div>
 
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

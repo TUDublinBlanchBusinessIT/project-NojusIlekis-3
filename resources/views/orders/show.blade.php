@@ -11,6 +11,23 @@
   <p><strong>Placed on:</strong> {{ $order->created_at->format('F j, Y \a\t g:ia') }}</p>
   <p><strong>Total:</strong> ${{ number_format($order->total, 2) }}</p>
 
+  <h3 class="mt-4">Rate Your Experience</h3>
+
+  @php
+    $rating    = 4;  // later, you can use e.g. $order->rating
+    $maxStars  = 5;
+  @endphp
+
+  <div class="mb-4">
+    @for ($i = 1; $i <= $maxStars; $i++)
+      @if ($i <= $rating)
+        <span class="fs-3 text-warning">&#9733;</span><!-- filled star -->
+      @else
+        <span class="fs-3 text-muted">&#9734;</span><!-- empty star -->
+      @endif
+    @endfor
+  </div>
+
   <h3 class="mt-4">Items</h3>
   <table class="table table-bordered">
     <thead>
@@ -33,3 +50,4 @@
     </tbody>
   </table>
 @endsection
+

@@ -54,22 +54,44 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        // Optional: ensure the auth user owns this order
+        // Ensure the auth user owns this order
         abort_unless($order->user_id === Auth::id(), 403);
 
         return view('orders.show', compact('order'));
     }
-     /**
+
+    /**
      * Display a listing of the user's orders.
      */
     public function index()
     {
         $orders = Order::where('user_id', Auth::id())
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(10);
+                       ->orderBy('created_at', 'desc')
+                       ->paginate(10);
 
         return view('orders.index', compact('orders'));
     }
 
+    /**
+     * Store or update the user's rating for this order.
+     */
+    public function rate(Request $request, Order $order)
+    {
+        // Validate the submitted star rating
+        $data = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Ensure the logged-in user owns this order
+        abort_unless($order->user_id === Auth::id(), 403);
+
+        // Save the rating
+        $order->update(['rating' => $data['rating']]);
+
+        // Redirect back with a thank-you message
+        return redirect()
+            ->route('orders.show', $order)
+            ->with('success', 'Thanks! You rated this order '.$data['rating'].'★');
+    }
 }
 

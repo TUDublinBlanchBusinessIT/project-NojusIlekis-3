@@ -13,20 +13,30 @@
 
   <h3 class="mt-4">Rate Your Experience</h3>
 
-  @php
-    $rating    = 4;  // later, you can use e.g. $order->rating
-    $maxStars  = 5;
-  @endphp
+  <form action="{{ route('orders.rate', $order) }}" method="POST" class="mb-4">
+    @csrf
 
-  <div class="mb-4">
-    @for ($i = 1; $i <= $maxStars; $i++)
-      @if ($i <= $rating)
-        <span class="fs-3 text-warning">&#9733;</span><!-- filled star -->
-      @else
-        <span class="fs-3 text-muted">&#9734;</span><!-- empty star -->
-      @endif
-    @endfor
-  </div>
+    <fieldset class="starability-slot">
+      <legend class="visuallyhidden">Rating for this order</legend>
+
+      @php $current = old('rating', $order->rating ?? 0); @endphp
+
+      @for ($i = 5; $i >= 1; $i--)
+        <input type="radio"
+               id="rate{{ $i }}"
+               name="rating"
+               value="{{ $i }}"
+               {{ $current == $i ? 'checked' : '' }} />
+        <label for="rate{{ $i }}" title="{{ $i }} stars">{{ $i }} stars</label>
+      @endfor
+    </fieldset>
+
+    @error('rating')
+      <div class="text-danger">{{ $message }}</div>
+    @enderror
+
+    <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
+  </form>
 
   <h3 class="mt-4">Items</h3>
   <table class="table table-bordered">
@@ -50,4 +60,5 @@
     </tbody>
   </table>
 @endsection
+
 

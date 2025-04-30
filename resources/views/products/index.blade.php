@@ -13,6 +13,7 @@
         <th>Category</th>
         <th>Price</th>
         <th>Stock</th>
+        <th>Active?</th>         <!-- New column header -->
         <th>Add to Cart</th>
         <th>Actions</th>
       </tr>
@@ -24,6 +25,16 @@
           <td>{{ $p->category->name }}</td>
           <td>${{ number_format($p->price, 2) }}</td>
           <td>{{ $p->stock }}</td>
+
+          <!-- Active badge -->
+          <td>
+            @if($p->active)
+              <span class="badge bg-success">Yes</span>
+            @else
+              <span class="badge bg-secondary">No</span>
+            @endif
+          </td>
+
           <td>
             <form action="{{ route('cart.add', $p) }}" method="POST" class="d-inline">
               @csrf
@@ -31,11 +42,7 @@
             </form>
           </td>
           <td>
-            <!-- Edit button -->
-            <a href="{{ route('products.edit', $p) }}" class="btn btn-sm btn-secondary me-2">
-              Edit
-            </a>
-            <!-- Delete button -->
+            <a href="{{ route('products.edit', $p) }}" class="btn btn-sm btn-secondary me-2">Edit</a>
             <form action="{{ route('products.destroy', $p) }}"
                   method="POST"
                   class="d-inline"
@@ -48,11 +55,12 @@
         </tr>
       @empty
         <tr>
-          <td colspan="6" class="text-center">No products yet</td>
+          <td colspan="7" class="text-center">No products yet</td>
         </tr>
       @endforelse
     </tbody>
   </table>
 @endsection
+
 
 

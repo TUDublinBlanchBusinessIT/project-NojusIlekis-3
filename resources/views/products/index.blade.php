@@ -13,7 +13,8 @@
         <th>Category</th>
         <th>Price</th>
         <th>Stock</th>
-        <th>Add to Cart</th>  <!-- new column header -->
+        <th>Add to Cart</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -24,18 +25,34 @@
           <td>${{ number_format($p->price, 2) }}</td>
           <td>{{ $p->stock }}</td>
           <td>
-            <form action="{{ route('cart.add', $p) }}" method="POST">
+            <form action="{{ route('cart.add', $p) }}" method="POST" class="d-inline">
               @csrf
-              <button type="submit" class="btn btn-success btn-sm">
-                Add to Cart
-              </button>
+              <button type="submit" class="btn btn-success btn-sm">Add to Cart</button>
+            </form>
+          </td>
+          <td>
+            <!-- Edit button -->
+            <a href="{{ route('products.edit', $p) }}" class="btn btn-sm btn-secondary me-2">
+              Edit
+            </a>
+            <!-- Delete button -->
+            <form action="{{ route('products.destroy', $p) }}"
+                  method="POST"
+                  class="d-inline"
+                  onsubmit="return confirm('Delete this product?')">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
             </form>
           </td>
         </tr>
       @empty
-        <tr><td colspan="5" class="text-center">No products yet</td></tr>
+        <tr>
+          <td colspan="6" class="text-center">No products yet</td>
+        </tr>
       @endforelse
     </tbody>
   </table>
 @endsection
+
 

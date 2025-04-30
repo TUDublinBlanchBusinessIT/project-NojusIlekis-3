@@ -1,30 +1,102 @@
 /* public/css/custom.css */
 
+/* ─── 1) Base Overrides ───────────────────────────────────────────────────── */
+
+/* Active/inactive badge colors */
 .badge.bg-success {
-  background-color: #28a745 !important;
-}
-.badge.bg-secondary {
-  background-color: #6c757d !important;
-}
-.navbar {
-  background-color: #004d99 !important;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-.navbar .dropdown-menu li a:hover {
-  background-color: rgba(0, 77, 153, 0.1);
-}
-.btn-primary {
-  background-color: #ff6600 !important;
-  border-color:   #e65c00 !important;
-}
-.table tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-}
-.table .btn-sm {
-  margin-right: 0.25rem;
-}
+    background-color: #28a745 !important;
+  }
+  .badge.bg-secondary {
+    background-color: #6c757d !important;
+  }
+  
+  /* Sticky, brand-colored navbar */
+  .navbar {
+    background-color: #004d99 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* Dropdown hover highlight */
+  .navbar .dropdown-menu li a:hover {
+    background-color: rgba(0, 77, 153, 0.1);
+  }
+  
+  /* Custom primary buttons */
+  .btn-primary {
+    background-color: #ff6600 !important;
+    border-color:   #e65c00 !important;
+  }
+  
+  /* Table row hover effect */
+  .table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  /* Tighter spacing on small table buttons */
+  .table .btn-sm {
+    margin-right: 0.25rem;
+  }
+  
+  
+  /* ─── 2) Unique Styling Enhancements ─────────────────────────────────────── */
+  
+  /* 2.1 Import a sleek Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+  body {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  /* 2.2 Gradient navbar & smooth shadow */
+  .navbar {
+    background: linear-gradient(90deg, #1e3a8a, #2563eb) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* 2.3 Floating product cards */
+  .product-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+  }
+  
+  /* 2.4 Button hover pop & transition */
+  .btn {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  .btn-primary:hover {
+    background-color: #e65c00 !important;
+    transform: scale(1.05);
+  }
+  
+  /* 2.5 Zebra-striped tables */
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,0.03);
+  }
+  
+  /* 2.6 Category badges */
+  .category-badge {
+    display: inline-block;
+    background-color: #ffca28;
+    color: #1a1a1a;
+    font-weight: 600;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25rem;
+  }
+  
+  /* 2.7 Form inputs focus ring */
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.25);
+  }
+  
 
 
   

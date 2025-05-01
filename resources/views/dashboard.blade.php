@@ -45,6 +45,12 @@
     </div>
   </div>
 
+  {{-- Orders-per-day Chart --}}
+  <div class="mb-5">
+    <h3>Orders in the Last 7 Days</h3>
+    <canvas id="ordersChart" height="100"></canvas>
+  </div>
+
   {{-- Recent Orders Table --}}
   <h3 class="mb-3">Recent Orders</h3>
   <table class="table table-striped">
@@ -73,5 +79,33 @@
   <a href="{{ route('orders.index') }}" class="btn btn-primary">
     View All Orders
   </a>
+
+  {{-- Chart.js --}}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('ordersChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: @json($chartLabels),
+        datasets: [{
+          label: 'Orders per Day',
+          data: @json($chartData),
+          fill: false,
+          tension: 0.4,
+          borderWidth: 2,
+          borderColor: '#2563eb',
+          pointBackgroundColor: '#2563eb'
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  </script>
 @endsection
+
 

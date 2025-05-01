@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -24,11 +25,30 @@ class DashboardController extends Controller
                              ->take(5)
                              ->get();
 
+        // ── Chart data: orders per day over last 7 days ──
+        $raw = Order::selectRaw("DATE(created_at) as date, COUNT(*) as cnt")
+                    ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+                    ->groupBy('date')
+                    ->orderBy('date')
+                    ->pluck('cnt','date')
+                    ->toArray();
+
+        $chartLabels = [];
+        $chartData   = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date       = now()->subDays($i)->toDateString();
+            $chartLabels[] = now()->subDays($i)->format('M j');
+            $chartData[]   = $raw[$date] ?? 0;
+        }
+
         return view('dashboard', compact(
             'totalOrders','pendingOrders',
             'totalProducts','totalCategories',
-            'totalSales','recentOrders'
+            'totalSales','recentOrders',
+            'chartLabels','chartData'
         ));
     }
 }
+
 

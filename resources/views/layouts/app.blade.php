@@ -5,19 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'E-Shop') }}</title>
 
-
-
-  <!-- 2) Bootstrap CSS -->
+  <!-- Bootstrap CSS -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet">
 
-  <!-- 3) Starability CSS -->
+  <!-- Starability CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/starability/css/starability-all.min.css"/>
 
-  <!-- 4) Your custom overrides -->
+  <!-- Your custom overrides -->
   <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 
@@ -47,6 +45,11 @@
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+          <!-- Dashboard link -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+          </li>
+
           <!-- Categories dropdown -->
           @inject('navCategories','App\Models\Category')
           <li class="nav-item dropdown">
@@ -62,7 +65,7 @@
                 </a>
               </li>
               <li><hr class="dropdown-divider"></li>
-              <!-- Front‐end filters -->
+              <!-- Front-end filters -->
               @foreach($navCategories->all() as $cat)
                 <li>
                   <a class="dropdown-item"
@@ -77,13 +80,19 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('products.index') }}">All Products</a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">Cart</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('orders.index') }}">My Orders</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('cart.index') }}">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('orders.index') }}">My Orders</a>
+          </li>
         </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           @auth
-            <li class="nav-item"><span class="nav-link">{{ Auth::user()->name }}</span></li>
+            <li class="nav-item">
+              <span class="nav-link">{{ Auth::user()->name }}</span>
+            </li>
             <li class="nav-item">
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -91,8 +100,12 @@
               </form>
             </li>
           @else
-            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Log In</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('login') }}">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('register') }}">Register</a>
+            </li>
           @endauth
         </ul>
       </div>
@@ -107,6 +120,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 

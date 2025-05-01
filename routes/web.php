@@ -4,28 +4,23 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;      // ← added
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DashboardController;  // ← added
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application.
-| These routes are loaded by the RouteServiceProvider within a group 
-| which contains the "web" middleware group. Now create something great!
-|
 */
 
-// Public home
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Dashboard (already protected)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Dashboard (protected, now using DashboardController)
+Route::get('/dashboard', [DashboardController::class, 'index'])
+     ->middleware(['auth'])
+     ->name('dashboard');
 
 // Protected CRUD and cart routes
 Route::middleware('auth')->group(function () {
@@ -34,10 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('products',   ProductController::class);
 
     // Shopping cart
-    Route::get   ('cart',               [CartController::class, 'index']) ->name('cart.index');
-    Route::post  ('cart/add/{product}', [CartController::class, 'add'])   ->name('cart.add');
-    Route::patch ('cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get   ('cart',                 [CartController::class, 'index'])   ->name('cart.index');
+    Route::post  ('cart/add/{product}',   [CartController::class, 'add'])     ->name('cart.add');
+    Route::patch ('cart/update/{product}',[CartController::class, 'update'])  ->name('cart.update');
+    Route::delete('cart/remove/{product}',[CartController::class, 'remove'])  ->name('cart.remove');
 
     // Checkout: create an order from the cart
     Route::post('checkout', [OrderController::class, 'checkout'])
@@ -46,19 +41,18 @@ Route::middleware('auth')->group(function () {
     // Show a placed order
     Route::get('orders/{order}', [OrderController::class, 'show'])
          ->name('orders.show');
-        
-    //Order history
+
+    // Order history
     Route::get('orders', [OrderController::class, 'index'])
          ->name('orders.index');
 
     // Rate an order
     Route::post('orders/{order}/rate', [OrderController::class, 'rate'])
          ->name('orders.rate');
-
-    
 });
 
 // Breeze authentication routes
 require __DIR__.'/auth.php';
+
 
 
